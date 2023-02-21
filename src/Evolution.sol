@@ -38,7 +38,7 @@ contract Evolution is ERC721A {
     }
 
     function tokenURI(uint256 tokenID) public virtual view override returns(string memory) {
-        require(_exists(tokenID), "Token ID does not exist");
+        require(_exists(tokenID), "Token ID does not exist!");
         return metadataAddress.uri(tokenID, tokenToDNA[tokenID]);
     }
 }
