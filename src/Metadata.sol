@@ -12,7 +12,7 @@ contract Metadata {
     function draw(string memory _svg, string memory _color, uint8 _x, uint8 _y, uint8 _width, uint8 _height) internal pure returns(string memory) {
         for(uint8 i = _x; i <= _x + _width; i++) {
             for(uint8 j = _y; j <= _y + _height; j++) {
-                if(i < 32 && j < 32) {
+                if(i < 16 && j < 16) {
                     _svg = string(abi.encodePacked(_svg,"<rect fill='#",_color,"' x='",AnonymiceLibrary.toString(i),"' y='",AnonymiceLibrary.toString(j),"'/>"));
                 }
             }
@@ -29,19 +29,19 @@ contract Metadata {
             //iterate 9 times
             while(spacer <= 66) {
                 string memory color = AnonymiceLibrary.substring(dna, spacer, spacer + 6);
-                uint8 x = AnonymiceLibrary.parseInt(AnonymiceLibrary.substring(dna, spacer, spacer + 2)) % 32;
-                uint8 y = AnonymiceLibrary.parseInt(AnonymiceLibrary.substring(dna, spacer + 2, spacer + 4)) % 32;
-                uint8 width = AnonymiceLibrary.parseInt(AnonymiceLibrary.substring(dna, spacer + 4, spacer + 5)) % 32;
-                uint8 height = AnonymiceLibrary.parseInt(AnonymiceLibrary.substring(dna, spacer + 5, spacer + 6)) % 32;
+                uint8 x = AnonymiceLibrary.parseInt(AnonymiceLibrary.substring(dna, spacer, spacer + 2)) % 16;
+                uint8 y = AnonymiceLibrary.parseInt(AnonymiceLibrary.substring(dna, spacer + 2, spacer + 4)) % 16;
+                uint8 width = AnonymiceLibrary.parseInt(AnonymiceLibrary.substring(dna, spacer + 4, spacer + 5)) % 16;
+                uint8 height = AnonymiceLibrary.parseInt(AnonymiceLibrary.substring(dna, spacer + 5, spacer + 6)) % 16;
                 svgString = draw(svgString, color, x, y, width, height);
                 spacer += 6;
             }
         }
         svgString = string(
             AnonymiceLibrary.encode(bytes(abi.encodePacked(
-                '<svg id="evolution-svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet" viewBox="0 0 32 32"> <rect class="bg" x="0" y="0" />',
+                '<svg id="evolution-svg" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin meet" viewBox="0 0 16 16"> <rect class="bg" x="0" y="0" />',
                 svgString,
-                '<style>rect.bg{width:32px;height:32px;fill:#',background,'} rect{width:1px;height:1px;} #evolution-svg{shape-rendering: crispedges;} </style></svg>'
+                '<style>rect.bg{width:16px;height:16px;fill:#',background,'} rect{width:1px;height:1px;} #evolution-svg{shape-rendering: crispedges;} </style></svg>'
             )))
         );
         return svgString;

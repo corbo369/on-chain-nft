@@ -30,9 +30,11 @@ contract EvolutionTest is Test {
     }
 
     function testMint() public {
-        evolution.mint(5);
-        evolution.combine(1, 2);
-        evolution.combine(3, 1);
-        evolution.tokenURI(3);
+        evolution.mint(6);
+        evolution.combine(0, 4);
+        evolution.combine(0, 3);
+        evolution.combine(0, 2);
+        evolution.combine(1, 0);
+        evolution.tokenURI(1);
     }
 }
