@@ -5,7 +5,7 @@ import "./ERC721A.sol";
 //import "openzeppelin/contracts/access/Ownable.sol";
 
 interface IMetadata {
-    function uri(uint256 tokenID, uint256 tokenDNA) external view returns(string memory);
+    function uri(uint256 tokenID, uint256[] memory tokenDNA) external view returns(string memory);
 }
 
 contract Evolution is ERC721A {
@@ -15,7 +15,7 @@ contract Evolution is ERC721A {
     uint256 public cutoff = 0;
     uint256 public cost = 0 ether;
 
-    mapping(uint256 => uint256) public tokenToDNA;
+    mapping(uint256 => uint256[]) public tokenToDNA;
 
     constructor(address _metadata) ERC721A("Evolution", "EVOL") {
         metadataAddress = IMetadata(_metadata);
@@ -23,7 +23,7 @@ contract Evolution is ERC721A {
     }
 
     function generateDNA(address _user, uint256 _tokenID) internal {
-        tokenToDNA[_tokenID] = uint256(keccak256(abi.encodePacked(block.prevrandao, block.timestamp, _user, _tokenID)));
+        tokenToDNA[_tokenID].push(uint256(keccak256(abi.encodePacked(block.prevrandao, block.timestamp, _user, _tokenID))));
     }
 
     function mint(uint256 amount) public payable {
@@ -35,6 +35,16 @@ contract Evolution is ERC721A {
         }
 
         _mint(msg.sender, amount);
+    }
+
+    function combine(uint256 one, uint256 two) public {
+        require(msg.sender == ownerOf(one) && msg.sender == ownerOf(two), "Not your tokens");
+
+        _burn(two);
+        for(uint256 i = 0; i < tokenToDNA[two].length; i++) {
+            tokenToDNA[one].push(tokenToDNA[two][i]);
+        }
+        delete(tokenToDNA[two]);
     }
 
     function tokenURI(uint256 tokenID) public virtual view override returns(string memory) {

@@ -31,6 +31,8 @@ contract EvolutionTest is Test {
 
     function testMint() public {
         evolution.mint(5);
-        evolution.tokenURI(0);
+        evolution.combine(1, 2);
+        evolution.combine(3, 1);
+        evolution.tokenURI(3);
     }
 }
