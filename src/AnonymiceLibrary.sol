@@ -1,6 +1,5 @@
 // SPDX-License-Identifier: MIT
-
-pragma solidity >=0.7.0 <0.9.0;
+pragma solidity ^0.8.0;
 
 library AnonymiceLibrary {
     string internal constant TABLE =
@@ -132,5 +131,16 @@ library AnonymiceLibrary {
         }
         return string(result);
     }
-}
 
+    function isContract(address account) internal view returns (bool) {
+        // This method relies on extcodesize, which returns 0 for contracts in
+        // construction, since the code is only stored at the end of the
+        // constructor execution.
+
+        uint256 size;
+        assembly {
+            size := extcodesize(account)
+        }
+        return size > 0;
+    }
+}
