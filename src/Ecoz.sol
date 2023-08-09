@@ -9,7 +9,7 @@ interface IThrive {
 }
 
 interface IMetadata {
-    function uriJag(uint256 species, uint256 tokenId, uint256 dna) external view returns(string memory);
+    function uriJag(uint256 species, uint256 tokenId, uint256 dna) external view returns (string memory);
     function uriBuck(uint256 species, uint256 tokenId, uint256 dna) external view returns (string memory);
     function uriTree(uint256 species, uint256 tokenId, uint256 dna) external view returns (string memory);
 }
@@ -45,18 +45,17 @@ contract Ecoz is ERC721A {
     }
 
     function _calculateWeight(uint256 thisDna) internal pure returns (uint256) {
-        uint256 weight = 0;
+        uint256 total = 0;
         uint256 scale = 0;
         if (thisDna % 1000000 >= 400000) scale = 2;
         else scale = 1;
         while(thisDna > 10) {
-            weight = weight + thisDna % 10;
+            total = total + thisDna % 10;
             thisDna = thisDna / 10;
         }
-        return weight / scale;
+        return total / scale;
     }
 
-    //MIGHT BE A BUG HERE
     function _beforeTokenTransfers(
         address from,
         address to,
@@ -73,9 +72,9 @@ contract Ecoz is ERC721A {
     function _updateBreedCosts(Population memory p) internal {
         uint16 increment = 3;
         uint256 total = totalSupply();
-        uint256 ratioJag = (10000 * (p.jag + p.babyJag)) / total;
-        uint256 ratioBuck = (10000 * (p.buck + p.babyBuck)) / total;
-        uint256 ratioTree = (10000 * (p.tree + p.babyTree)) / total;
+        uint256 ratioJag = (10000 * (uint256)(p.jag + p.babyJag)) / total;
+        uint256 ratioBuck = (10000 * (uint256)(p.buck + p.babyBuck)) / total;
+        uint256 ratioTree = (10000 * (uint256)(p.tree + p.babyTree)) / total;
 
         if(ratioJag > 1667) population.costJag += increment;
         else population.costJag -= increment;
@@ -123,9 +122,14 @@ contract Ecoz is ERC721A {
 
     function tokenURI(uint256 tokenId) public virtual view override returns(string memory) {
         require(_exists(tokenId), "token ID does not exist");
-        uint256 generation = dna[tokenId] - (dna[tokenId] % 100000);
-        if(generation == 100000 || generation == 400000) return metadata.uriJag(1, tokenId, dna[tokenId]);
-        revert();
+
+        uint256 species = dna[tokenId] - (dna[tokenId] % 100000);
+        if(species == 100000) return metadata.uriJag(1, tokenId, dna[tokenId]);
+        else if (species == 200000) return metadata.uriBuck(2, tokenId, dna[tokenId]);
+        else if (species == 300000) return metadata.uriTree(3, tokenId, dna[tokenId]);
+        else if (species == 400000) return metadata.uriJag(4, tokenId, dna[tokenId]);
+        else if (species == 500000) return metadata.uriBuck(5, tokenId, dna[tokenId]);
+        else return metadata.uriTree(6, tokenId, dna[tokenId]);
     }
 
     function weightEcoz(uint256 tokenId) external view returns (uint256) {
@@ -148,7 +152,6 @@ contract Ecoz is ERC721A {
 
         _mint(msg.sender, 1);
         _updateBreedCosts(population);
-
     }
 
     function mintBushBuck() public payable {
@@ -162,7 +165,6 @@ contract Ecoz is ERC721A {
 
         _mint(msg.sender, 1);
         _updateBreedCosts(population);
-
     }
 
     function mintBananaTree() public payable {
@@ -176,7 +178,6 @@ contract Ecoz is ERC721A {
 
         _mint(msg.sender, 1);
         _updateBreedCosts(population);
-
     }
 
     function breedJaguar(uint16 parentOne, uint16 parentTwo) public payable {
@@ -200,7 +201,6 @@ contract Ecoz is ERC721A {
         population.babyJag++;
         _mint(msg.sender, 1);
         _updateBreedCosts(population);
-
     }
 
     function breedBushBuck(uint16 parentOne, uint16 parentTwo) public payable {
@@ -224,7 +224,6 @@ contract Ecoz is ERC721A {
         population.babyBuck++;
         _mint(msg.sender, 1);
         _updateBreedCosts(population);
-
     }
 
     function breedBananaTree(uint16 parentOne, uint16 parentTwo) public payable {
