@@ -14,7 +14,6 @@ interface IMetadata {
     function uriTree(uint256 species, uint256 tokenId, uint256 dna) external view returns (string memory);
 }
 
-//ADD OPERATORS
 contract Ecoz is ERC721A {
 
     IThrive public thrive;
@@ -141,7 +140,7 @@ contract Ecoz is ERC721A {
         return weight[user];
     }
 
-    function mintJaguar() public payable {
+    function mintJaguar() public {
         require(population.jag + 1 <= population.maxJag, "exceeds max jag supply");
         thrive.burn(msg.sender, population.costJag);
         currentToken += 1;
@@ -154,7 +153,7 @@ contract Ecoz is ERC721A {
         _updateBreedCosts(population);
     }
 
-    function mintBushBuck() public payable {
+    function mintBushBuck() public {
         require(population.buck + 1 <= population.maxBuck, "exceeds max buck supply");
         thrive.burn(msg.sender, population.costBuck);
         currentToken += 1;
@@ -167,7 +166,7 @@ contract Ecoz is ERC721A {
         _updateBreedCosts(population);
     }
 
-    function mintBananaTree() public payable {
+    function mintBananaTree() public {
         require(population.buck + 1 <= population.maxBuck, "exceeds max tree supply");
         thrive.burn(msg.sender, population.costTree);
         currentToken += 1;
@@ -180,7 +179,7 @@ contract Ecoz is ERC721A {
         _updateBreedCosts(population);
     }
 
-    function breedJaguar(uint16 parentOne, uint16 parentTwo) public payable {
+    function breedJaguar(uint16 parentOne, uint16 parentTwo) public {
         uint256 dnaOne = dna[parentOne];
         uint256 dnaTwo = dna[parentTwo];
         require(population.babyJag + 1 <= population.maxJag * 2,
@@ -196,14 +195,14 @@ contract Ecoz is ERC721A {
         thrive.burn(msg.sender, population.costJag / 2);
         currentToken++;
         dna[currentToken] = (uint256(keccak256(abi.encodePacked(
-                block.prevrandao, block.timestamp, dnaOne, dnaTwo))) % 100000) + 400000;
+                block.prevrandao, block.timestamp, dnaOne, dnaTwo, currentToken))) % 100000) + 400000;
 
         population.babyJag++;
         _mint(msg.sender, 1);
         _updateBreedCosts(population);
     }
 
-    function breedBushBuck(uint16 parentOne, uint16 parentTwo) public payable {
+    function breedBushBuck(uint16 parentOne, uint16 parentTwo) public {
         uint256 dnaOne = dna[parentOne];
         uint256 dnaTwo = dna[parentTwo];
         require(population.buck + 1 <= population.maxBuck * 2,
@@ -219,14 +218,14 @@ contract Ecoz is ERC721A {
         thrive.burn(msg.sender, population.costBuck / 2);
         currentToken++;
         dna[currentToken] = (uint256(keccak256(abi.encodePacked(
-                block.prevrandao, block.timestamp, dnaOne, dnaTwo))) % 100000) + 500000;
+                block.prevrandao, block.timestamp, dnaOne, dnaTwo, currentToken))) % 100000) + 500000;
 
         population.babyBuck++;
         _mint(msg.sender, 1);
         _updateBreedCosts(population);
     }
 
-    function breedBananaTree(uint16 parentOne, uint16 parentTwo) public payable {
+    function breedBananaTree(uint16 parentOne, uint16 parentTwo) public {
         uint256 dnaOne = dna[parentOne];
         uint256 dnaTwo = dna[parentTwo];
         require(population.tree + 1 <= population.maxTree * 2,
@@ -242,7 +241,7 @@ contract Ecoz is ERC721A {
         thrive.burn(msg.sender, population.costTree / 2);
         currentToken++;
         dna[currentToken] = (uint256(keccak256(abi.encodePacked(
-                block.prevrandao, block.timestamp, dnaOne, dnaTwo))) % 100000) + 600000;
+                block.prevrandao, block.timestamp, dnaOne, dnaTwo, currentToken))) % 100000) + 600000;
 
         population.babyTree++;
         _mint(msg.sender, 1);

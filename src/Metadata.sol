@@ -5,7 +5,6 @@ import "./Base64.sol";
 import "./AnonymiceLibrary.sol";
 import "openzeppelin-contracts/access/Ownable.sol";
 
-//BETTER NAMES. GET OTHERS TRAITS IN
 contract Metadata is Ownable {
 
     struct Trait {
@@ -22,7 +21,7 @@ contract Metadata is Ownable {
 
     address public ecoz;
 
-    string background = 'f0f0f0';
+    string background = 'c4f9ff';
 
     mapping (uint256 => mapping(uint256 => Trait[])) traitTypes;
 
@@ -41,7 +40,6 @@ contract Metadata is Ownable {
         } revert();
     }
 
-    //Making 3 different ones might decrease gas
     function keyToHex(uint256 species, string memory key)
         internal
         view
@@ -113,7 +111,6 @@ contract Metadata is Ownable {
                     AnonymiceLibrary.substring(
                         AnonymiceLibrary.toString(dna),
                             i, i + 1));
-            //MERGE?
             if(trait == traitTypeCounts[species][i])
                 { trait = 0; }
             if(trait > traitTypeCounts[species][i])
@@ -134,7 +131,7 @@ contract Metadata is Ownable {
                     abi.encodePacked(
                         svg,
                         "<rect fill='#",
-                        keyToHex(species, AnonymiceLibrary.substring(pixel, 2, 3)),
+                        keyToHex(1, AnonymiceLibrary.substring(pixel, 2, 3)),
                         "' x='",AnonymiceLibrary.toString(x),
                         "' y='",AnonymiceLibrary.toString(y),"'/>"
                     )
@@ -142,7 +139,7 @@ contract Metadata is Ownable {
                 placedPixels[x][y] = true;
             }
 
-            //GENESIS JAGS
+            //DRAW BODY2
             if(i == 1 && species == 1) {
                 for (uint16 j = 0; j < traitTypes[species][6][trait].count; j++) {
                     string memory pixel = AnonymiceLibrary.substring(
@@ -157,7 +154,7 @@ contract Metadata is Ownable {
                     svg = string(
                         abi.encodePacked(
                             svg,"<rect fill='#",
-                            keyToHex(species, AnonymiceLibrary.substring(pixel, 2, 3)),
+                            keyToHex(1, AnonymiceLibrary.substring(pixel, 2, 3)),
                             "' x='",AnonymiceLibrary.toString(x),
                             "' y='",AnonymiceLibrary.toString(y),"'/>"
                         )
@@ -165,7 +162,6 @@ contract Metadata is Ownable {
                     placedPixels[x][y] = true;
                 }
             }
-            //GENESIS JAGS
 
             metadata = string(abi.encodePacked(metadata,
                 '{"trait_type":"', traitTypes[species][i][trait].value,
@@ -243,7 +239,7 @@ contract Metadata is Ownable {
                     abi.encodePacked(
                         svg,
                         "<rect fill='#",
-                        keyToHex(species, AnonymiceLibrary.substring(pixel, 2, 3)),
+                        keyToHex(2, AnonymiceLibrary.substring(pixel, 2, 3)),
                         "' x='",AnonymiceLibrary.toString(x),
                         "' y='",AnonymiceLibrary.toString(y),"'/>"
                     )
@@ -326,7 +322,7 @@ contract Metadata is Ownable {
                     abi.encodePacked(
                         svg,
                         "<rect fill='#",
-                        keyToHex(species, AnonymiceLibrary.substring(pixel, 2, 3)),
+                        keyToHex(3, AnonymiceLibrary.substring(pixel, 2, 3)),
                         "' x='",AnonymiceLibrary.toString(x),
                         "' y='",AnonymiceLibrary.toString(y),"'/>"
                     )
@@ -334,7 +330,7 @@ contract Metadata is Ownable {
                 placedPixels[x][y] = true;
             }
 
-            //GENESIS TREES
+            //DRAW LEAVES2
             if(i == 1 && species == 3) {
                 for (uint16 j = 0; j < traitTypes[species][5][trait].count; j++) {
                     string memory pixel = AnonymiceLibrary.substring(
@@ -349,7 +345,7 @@ contract Metadata is Ownable {
                     svg = string(
                         abi.encodePacked(
                             svg,"<rect fill='#",
-                            keyToHex(species, AnonymiceLibrary.substring(pixel, 2, 3)),
+                            keyToHex(3, AnonymiceLibrary.substring(pixel, 2, 3)),
                             "' x='",AnonymiceLibrary.toString(x),
                             "' y='",AnonymiceLibrary.toString(y),"'/>"
                         )
@@ -357,7 +353,6 @@ contract Metadata is Ownable {
                     placedPixels[x][y] = true;
                 }
             }
-            //GENESIS TREES
 
             metadata = string(abi.encodePacked(metadata,
                 '{"trait_type":"', traitTypes[species][i][trait].value,
