@@ -30,8 +30,8 @@ contract Ecoz is ERC721A {
 
     Population public population;
 
-    mapping(uint256 => uint256) public dna;
-    mapping(address => uint256) public weight;
+    mapping(uint256 => uint256) dna;
+    mapping(address => uint256) weight;
 
     constructor(address metadataAddress, address thriveAddress) ERC721A("Ecoz", "ECOZ") {
         population = Population(0, 0, 0, 0, 0, 0, 3000, 6000, 9000, 900, 600, 300);

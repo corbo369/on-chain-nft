@@ -1,7 +1,6 @@
 // SPDX-License-Identifier: MIT
 pragma solidity >=0.7.0 <0.9.0;
 
-import "./Base64.sol";
 import "./AnonymiceLibrary.sol";
 import "openzeppelin-contracts/access/Ownable.sol";
 
@@ -183,7 +182,7 @@ contract Metadata is Ownable {
         );
 
         if (species == 1) return string(abi.encodePacked(
-                'data:application/json;base64,',Base64.encode(bytes(abi.encodePacked(
+                'data:application/json;base64,',AnonymiceLibrary.encode(bytes(abi.encodePacked(
                     '{"name":"Jaguar #',AnonymiceLibrary.toString(tokenId),
                     '", "description":"',
                     "The Jaguar Ecoz is the Apex Predator of the Ecozystem. No one dare challenge the Jaguar. The only thing that can stop him from thriving in the jungle is starvation...",
@@ -195,7 +194,7 @@ contract Metadata is Ownable {
                     '{"trait_type":"DNA","value":"',AnonymiceLibrary.toString(dna),'"},',
                     metadata)))));
         else return string(abi.encodePacked(
-                'data:application/json;base64,',Base64.encode(bytes(abi.encodePacked(
+                'data:application/json;base64,',AnonymiceLibrary.encode(bytes(abi.encodePacked(
                     '{"name":"Jaguar #',AnonymiceLibrary.toString(tokenId),
                     '", "description":"',
                     "The Jaguar Ecoz is the Apex Predator of the Ecozystem. No one dare challenge the Jaguar. The only thing that can stop him from thriving in the jungle is starvation...",
@@ -267,7 +266,7 @@ contract Metadata is Ownable {
         );
 
         if (species == 2) return string(abi.encodePacked(
-                'data:application/json;base64,',Base64.encode(bytes(abi.encodePacked(
+                'data:application/json;base64,',AnonymiceLibrary.encode(bytes(abi.encodePacked(
                     '{"name":"Bush Buck #',AnonymiceLibrary.toString(tokenId),
                     '", "description":"',
                     "The Bush Buck Ecoz is the stable heart of the Ecozystem. They must not graze too much or be preyed upon too much or strange things will happen...",
@@ -279,7 +278,7 @@ contract Metadata is Ownable {
                     '{"trait_type":"DNA","value":"',AnonymiceLibrary.toString(dna),'"},',
                     metadata)))));
         else return string(abi.encodePacked(
-                'data:application/json;base64,',Base64.encode(bytes(abi.encodePacked(
+                'data:application/json;base64,',AnonymiceLibrary.encode(bytes(abi.encodePacked(
                     '{"name":"Bush Buck #',AnonymiceLibrary.toString(tokenId),
                     '", "description":"',
                     "The Bush Buck Ecoz is the stable heart of the Ecozystem. They must not graze too much or be preyed upon too much or strange things will happen...",                    '", "image": "',
@@ -374,7 +373,7 @@ contract Metadata is Ownable {
         );
 
         if (species == 3) return string(abi.encodePacked(
-                'data:application/json;base64,',Base64.encode(bytes(abi.encodePacked(
+                'data:application/json;base64,',AnonymiceLibrary.encode(bytes(abi.encodePacked(
                     '{"name":"Banana Tree #',AnonymiceLibrary.toString(tokenId),
                     '", "description":"',
                     "The Banana Tree Ecoz is the abundant producer of the Ecozystem. Their population stays strong and fruitful unless the Bush Bucks get too hungry...",
@@ -386,7 +385,7 @@ contract Metadata is Ownable {
                     '{"trait_type":"DNA","value":"',AnonymiceLibrary.toString(dna),'"},',
                     metadata)))));
         else return string(abi.encodePacked(
-                'data:application/json;base64,',Base64.encode(bytes(abi.encodePacked(
+                'data:application/json;base64,',AnonymiceLibrary.encode(bytes(abi.encodePacked(
                     '{"name":"Banana Tree #',AnonymiceLibrary.toString(tokenId),
                     '", "description":"',
                     "The Banana Tree Ecoz is the abundant producer of the Ecozystem. Their population stays strong and fruitful unless the Bush Bucks get too hungry...",
